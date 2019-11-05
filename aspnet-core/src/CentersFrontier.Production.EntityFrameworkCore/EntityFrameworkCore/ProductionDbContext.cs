@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Abp.Zero.EntityFrameworkCore;
+﻿using Abp.Zero.EntityFrameworkCore;
 using CentersFrontier.Production.Authorization.Roles;
 using CentersFrontier.Production.Authorization.Users;
 using CentersFrontier.Production.Drawings;
@@ -20,11 +19,12 @@ namespace CentersFrontier.Production.EntityFrameworkCore
         public DbSet<Model> Models { get; set; }
 
         // launches
-        //public DbSet<Launch> Launches { get; set; }
+        public DbSet<Launch> Launches { get; set; }
         //public DbSet<Bundle> Bundles { get; set; }
 
         // tasks
-        //public DbSet<TaskClassification> Classifications { get; set; }
+        //public DbSet<ProductionTask> ProductionTasks { get; set; }
+        public DbSet<TaskClassification> Classifications { get; set; }
 
         // drawings
         public DbSet<Drawing> Drawings { get; set; }
@@ -83,42 +83,42 @@ namespace CentersFrontier.Production.EntityFrameworkCore
 
             #endregion
 
-            //#region Launches
+            #region Launches
 
-            //modelBuilder.Entity<Launch>(entity =>
-            //{
-            //    entity.HasOne(l => l.Model)
-            //        .WithMany()
-            //        .HasForeignKey(l => l.ModelCode)
-            //        .HasPrincipalKey(m => m.Code);
+            modelBuilder.Entity<Launch>(entity =>
+            {
+                entity.HasOne(l => l.Model)
+                    .WithMany(m => m.Launches)
+                    .HasForeignKey(l => l.ModelCode)
+                    .HasPrincipalKey(m => m.Code);
 
-            //    entity.HasOne(b => b.SpecialClassification)
-            //        .WithMany()
-            //        .HasForeignKey(b => b.SpecialClassificationId);
-            //    entity.HasOne(b => b.UniversalClassification)
-            //        .WithMany()
-            //        .HasForeignKey(b => b.UniversalClassificationId);
+                entity.HasOne(b => b.SpecialClassification)
+                    .WithMany()
+                    .HasForeignKey(b => b.SpecialClassificationId);
+                entity.HasOne(b => b.UniversalClassification)
+                    .WithMany()
+                    .HasForeignKey(b => b.UniversalClassificationId);
 
-            //    entity.Property(l => l.ModelCode).IsRequired();
-            //    entity.Property(l => l.Stage).HasConversion<string>();
-            //});
+                entity.Property(l => l.ModelCode).IsRequired();
+                entity.Property(l => l.Stage).HasConversion<string>();
+            });
 
-            //#region LaunchSeed
+            #region LaunchSeed
 
-            //modelBuilder.Entity<Launch>().HasData(
-            //    new Launch { Id = 1, Code = "CZ-5 Y1", Name = "长五遥一", ModelCode = "CZ-5", Stage = DevelopmentStage.S, SpecialClassificationId = "XxAS04", UniversalClassificationId = "XyAT14" },
-            //    new Launch { Id = 2, Code = "CZ-5 Y2", Name = "长五遥二", ModelCode = "CZ-5", Stage = DevelopmentStage.S, SpecialClassificationId = "XxAS04", UniversalClassificationId = "XyAT14" },
-            //    new Launch { Id = 3, Code = "CZ-5 Y3", Name = "长五遥三", ModelCode = "CZ-5", Stage = DevelopmentStage.S, SpecialClassificationId = "XxAS04", UniversalClassificationId = "XyAT14" },
-            //    new Launch { Id = 4, Code = "CZ-5B Y1", Name = "长五乙遥一", ModelCode = "CZ-5B", Stage = DevelopmentStage.C, SpecialClassificationId = "YyAC04", UniversalClassificationId = "XyAT14" },
-            //    new Launch { Id = 5, Code = "CZ-7 Y1", Name = "长七遥一", ModelCode = "CZ-7", Stage = DevelopmentStage.S },
-            //    new Launch { Id = 6, Code = "CZ-7 Y2", Name = "长七遥二", ModelCode = "CZ-7", Stage = DevelopmentStage.S },
-            //    new Launch { Id = 7, Code = "CZ-7A SY", Name = "长七甲试验", ModelCode = "CZ-7A", Stage = DevelopmentStage.C },
-            //    new Launch { Id = 8, Code = "CZ-6 Y1", Name = "长六遥一", ModelCode = "CZ-6", Stage = DevelopmentStage.S },
-            //    new Launch { Id = 9, Code = "CZ-6 Y2", Name = "长六遥二", ModelCode = "CZ-6", Stage = DevelopmentStage.S });
+            modelBuilder.Entity<Launch>().HasData(
+                new Launch { Id = 1, Code = "CZ-5 Y1", Name = "长五遥一", ModelCode = "CZ-5", Stage = DevelopmentStage.S, SpecialClassificationId = "XxAS04", UniversalClassificationId = "XyAT14" },
+                new Launch { Id = 2, Code = "CZ-5 Y2", Name = "长五遥二", ModelCode = "CZ-5", Stage = DevelopmentStage.S, SpecialClassificationId = "XxAS04", UniversalClassificationId = "XyAT14" },
+                new Launch { Id = 3, Code = "CZ-5 Y3", Name = "长五遥三", ModelCode = "CZ-5", Stage = DevelopmentStage.S, SpecialClassificationId = "XxAS04", UniversalClassificationId = "XyAT14" },
+                new Launch { Id = 4, Code = "CZ-5B Y1", Name = "长五乙遥一", ModelCode = "CZ-5B", Stage = DevelopmentStage.C, SpecialClassificationId = "YyAC04", UniversalClassificationId = "XyAT14" },
+                new Launch { Id = 5, Code = "CZ-7 Y1", Name = "长七遥一", ModelCode = "CZ-7", Stage = DevelopmentStage.S },
+                new Launch { Id = 6, Code = "CZ-7 Y2", Name = "长七遥二", ModelCode = "CZ-7", Stage = DevelopmentStage.S },
+                new Launch { Id = 7, Code = "CZ-7A SY", Name = "长七甲试验", ModelCode = "CZ-7A", Stage = DevelopmentStage.C },
+                new Launch { Id = 8, Code = "CZ-6 Y1", Name = "长六遥一", ModelCode = "CZ-6", Stage = DevelopmentStage.S },
+                new Launch { Id = 9, Code = "CZ-6 Y2", Name = "长六遥二", ModelCode = "CZ-6", Stage = DevelopmentStage.S });
 
-            //#endregion
+            #endregion
 
-            //#endregion
+            #endregion
 
 
             #region Drawings
@@ -171,13 +171,21 @@ namespace CentersFrontier.Production.EntityFrameworkCore
                     a.Property(d => d.TotalWeight).HasComputedColumnSql("[UnitWeight] * [Quantity]");
 
                     a.Property(d => d.Borrowed).HasDefaultValue(false);
-                    
+
+                    /*
+                    ZJ-002
+                        |-- ZJ-001
+                            |-- ZYJ-001
+                            |-- BZJ-001
+                        |-- ZYJ - 002
+                        |-- TYJ - 001
+                    */
                     a.HasData(
-                        new { AssemblyCode = "ZJ-002", Ordinal = 1, DrawingCode = "ZJ-001", DrawingName = "组件1", Quantity = 2, Borrowed = false },
-                        new { AssemblyCode = "ZJ-002", Ordinal = 2, DrawingCode = "LJ-002", DrawingName = "专用件2", Quantity = 1, Borrowed = true },
-                        new { AssemblyCode = "ZJ-002", Ordinal = 3, DrawingCode = "TYJ-001", DrawingName = "通用件1", Quantity = 1, Borrowed = false },
-                        new { AssemblyCode = "ZJ-001", Ordinal = 1, DrawingCode = "ZYJ-001", DrawingName = "专用件1", Quantity = 1, Borrowed = false },
-                        new { AssemblyCode = "ZJ-001", Ordinal = 2, DrawingCode = "BZJ-001", DrawingName = "标准件1", Quantity = 4, Borrowed = false, UnitWeight = 0.027f }
+                        new { AssemblyCode = "ZJ-002", Ordinal = 1, Code = "ZJ-001", Name = "组件1", Quantity = 2, Borrowed = false },
+                        new { AssemblyCode = "ZJ-002", Ordinal = 2, Code = "ZYJ-002", Name = "专用件2", Quantity = 1, Borrowed = true },
+                        new { AssemblyCode = "ZJ-002", Ordinal = 3, Code = "TYJ-001", Name = "通用件1", Quantity = 1, Borrowed = false },
+                        new { AssemblyCode = "ZJ-001", Ordinal = 1, Code = "ZYJ-001", Name = "专用件1", Quantity = 1, Borrowed = false },
+                        new { AssemblyCode = "ZJ-001", Ordinal = 2, Code = "BZJ-001", Name = "标准件1", Quantity = 4, Borrowed = false, UnitWeight = 0.027f }
                     );
                 });
             });
@@ -188,10 +196,10 @@ namespace CentersFrontier.Production.EntityFrameworkCore
 
             #region TaskClassificationSeed
 
-            //modelBuilder.Entity<TaskClassification>().HasData(
-            //    new TaskClassification {Id = "XxAS04", IsUniversal = false},
-            //    new TaskClassification {Id = "YyAC04", IsUniversal = false},
-            //    new TaskClassification {Id = "XyAT14", IsUniversal = true});
+            modelBuilder.Entity<TaskClassification>().HasData(
+                new TaskClassification { Id = "XxAS04", IsUniversal = false },
+                new TaskClassification { Id = "YyAC04", IsUniversal = false },
+                new TaskClassification { Id = "XyAT14", IsUniversal = true });
 
             #endregion
 

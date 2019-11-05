@@ -9,30 +9,38 @@ namespace CentersFrontier.Production.Tasks
 {
     public class ProductionTask : Entity<long>
     {
-        public ProductionTask(string taskCode, string drawingCode, Workshop mainWorkshop)
+        public ProductionTask(string taskCode, string drawingCode, string drawingName, Workshop mainWorkshop)
         {
             TaskCode = taskCode;
             DrawingCode = drawingCode;
+            DrawingName = drawingName;
             MainWorkshop = mainWorkshop;
-            SetClassification();
+            ClassificationId = ParseClassificationId(TaskCode);
         }
 
         public string TaskCode { get; private set; }
 
-        public string DrawingCode { get; private set; }
+        public string DrawingCode { get; set; }
+
+        public string DrawingName { get; set; }
 
         public Workshop MainWorkshop { get; private set; }
 
-        public string Classification { get; set; }
-        //[ForeignKey("Classification")]
+        public string ClassificationId { get; private set; }
+        //[ForeignKey("ClassificationId")]
         //public TaskClassification Classification { get; set; }
 
-        private void SetClassification()
+        /// <summary>
+        /// 通过任务号解析任务分类，即第一个‘-’前面的内容。
+        /// </summary>
+        /// <param name="taskCode">任务号</param>
+        /// <returns>任务分类</returns>
+        public static string ParseClassificationId(string taskCode)
         {
-            if (TaskCode.IsNullOrWhiteSpace()) throw new ApplicationException("任务号不能为空");
+            if (taskCode.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(taskCode));
             try
             {
-                Classification = TaskCode.Split('-')[0];
+                return taskCode.Split('-')[0];
             }
             catch (Exception e)
             {
@@ -43,12 +51,7 @@ namespace CentersFrontier.Production.Tasks
         public void ChangeTaskCode(string newTaskCode)
         {
             TaskCode = newTaskCode;
-            SetClassification();
-        }
-
-        public void ChangeDrawingCode(string newDrawingCode)
-        {
-            DrawingCode = newDrawingCode;
+            ClassificationId = ParseClassificationId(TaskCode);
         }
 
         public void ChangeMainWorkshop(Workshop newWorkshop)
@@ -59,8 +62,8 @@ namespace CentersFrontier.Production.Tasks
 
     public class ProductionTask<TDrawing> : ProductionTask where TDrawing : Drawing, new()
     {
-        public ProductionTask(string taskCode, string drawingCode, Workshop mainWorkshop)
-            : base(taskCode, drawingCode, mainWorkshop)
+        public ProductionTask(string taskCode, string drawingCode, string drawingName, Workshop mainWorkshop)
+            : base(taskCode, drawingCode, drawingName, mainWorkshop)
         {
         }
 

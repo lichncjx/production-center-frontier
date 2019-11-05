@@ -45,6 +45,16 @@
     <Compile Remove="Migrations\20190508075423_Add_Series_And_Models.cs" />
     <Compile Remove="Migrations\20190508075423_Add_Series_And_Models.Designer.cs" />
     <Compile Remove="Migrations\20190508092652_Add_Bundles_And_Launches.cs" />
+    <Compile Remove="Migrations\20191105032806_Added_Launches.cs" />
+    <Compile Remove="Migrations\20191105032806_Added_Launches.Designer.cs" />
+    <Compile Remove="Migrations\20191105034042_Added_Launches.cs" />
+    <Compile Remove="Migrations\20191105034042_Added_Launches.Designer.cs" />
+    <Compile Remove="Migrations\20191105035150_Added_Launches.cs" />
+    <Compile Remove="Migrations\20191105035150_Added_Launches.Designer.cs" />
+    <Compile Remove="Migrations\20191105035634_Added_Launches_And_Tasks.cs" />
+    <Compile Remove="Migrations\20191105035634_Added_Launches_And_Tasks.Designer.cs" />
+    <Compile Remove="Migrations\20191105035709_Added_Launches_And_Tasks.cs" />
+    <Compile Remove="Migrations\20191105035709_Added_Launches_And_Tasks.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
