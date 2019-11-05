@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <RootNamespace>CentersFrontier.Production</RootNamespace>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20180726102624_Upgrade_ABP_380.cs" />
+    <Compile Remove="Migrations\20180927062408_test.cs" />
+    <Compile Remove="Migrations\20190111071724_Upgraded_To_Abp_v4_1_0.cs" />
+    <Compile Remove="Migrations\20190428024630_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428024904_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428025125_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428025434_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428025550_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428025624_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428025850_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428032336_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428073039_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428081202_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428081437_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428081545_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428082759_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190428083225_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190429061839_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190429062011_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190429062011_Add_Model_And_Launch.Designer.cs" />
+    <Compile Remove="Migrations\20190430081017_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190430083420_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190430084948_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190430084948_Add_Drawings.Designer.cs" />
+    <Compile Remove="Migrations\20190430180706_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190430180706_Add_Drawings.Designer.cs" />
+    <Compile Remove="Migrations\20190430180853_Add_Model_And_Launch.cs" />
+    <Compile Remove="Migrations\20190430181113_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190430181113_Add_Drawings.Designer.cs" />
+    <Compile Remove="Migrations\20190430184628_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190430184628_Add_Drawings.Designer.cs" />
+    <Compile Remove="Migrations\20190430184921_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190508074919_Add_Drawings.cs" />
+    <Compile Remove="Migrations\20190508074919_Add_Drawings.Designer.cs" />
+    <Compile Remove="Migrations\20190508075423_Add_Series_And_Models.cs" />
+    <Compile Remove="Migrations\20190508075423_Add_Series_And_Models.Designer.cs" />
+    <Compile Remove="Migrations\20190508092652_Add_Bundles_And_Launches.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CentersFrontier.Production.Core\CentersFrontier.Production.Core.csproj" />
+  </ItemGroup>
+</Project>
