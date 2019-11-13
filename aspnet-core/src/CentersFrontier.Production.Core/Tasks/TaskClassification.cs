@@ -10,6 +10,6 @@ namespace CentersFrontier.Production.Tasks
     {
         public bool IsUniversal { get; set; }
 
-        public ICollection<ProductionTask> Tasks { get; set; }
+        public ICollection<ManufacturingTask> Tasks { get; set; }
     }
 }
