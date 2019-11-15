@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Abp.Domain.Values;
-using CentersFrontier.Production.Workshops;
 using Microsoft.EntityFrameworkCore;
 
 namespace CentersFrontier.Production.Tasks
@@ -10,7 +9,7 @@ namespace CentersFrontier.Production.Tasks
     [Obsolete]
     public class TaskCode : ValueObject
     {
-        public TaskCode(string classification, Workshop mainWorkshop, string sequenceNumber)
+        public TaskCode(string classification, Manufacturer mainWorkshop, string sequenceNumber)
         {
             Classification = classification;
             MainWorkshop = mainWorkshop;
@@ -18,7 +17,7 @@ namespace CentersFrontier.Production.Tasks
         }
 
         public string Classification { get; set; }
-        public Workshop MainWorkshop { get; set; }
+        public Manufacturer MainWorkshop { get; set; }
         public string SequenceNumber { get; set; }
 
         protected override IEnumerable<object> GetAtomicValues()

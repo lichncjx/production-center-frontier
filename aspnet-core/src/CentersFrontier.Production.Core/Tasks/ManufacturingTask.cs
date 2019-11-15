@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Abp.Domain.Entities;
+using Abp.Domain.Entities.Auditing;
 using Abp.Extensions;
 using Abp.UI;
+using CentersFrontier.Production.Entities;
 
 namespace CentersFrontier.Production.Tasks
 {
-    public abstract class ManufacturingTask : Entity
+    public abstract class ManufacturingTask : FullAuditedEntity<long>, IReceptionAudited, IPassivable
     {
         protected ManufacturingTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer)
         {
@@ -27,6 +29,12 @@ namespace CentersFrontier.Production.Tasks
         public int TotalQuantity { get; set; }
 
         public Manufacturer Manufacturer { get; set; }
+
+        public bool IsReceived { get; set; }
+        public DateTime ReceptionTime { get; set; }
+        public long? RecipientUserId { get; set; }
+
+        public bool IsActive { get; set; }
 
         public ICollection<ManufacturingBatch> Batches { get; set; }
 
@@ -91,6 +99,7 @@ namespace CentersFrontier.Production.Tasks
         public SubTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer)
             : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturer)
         {
+            IsActive = true;
         }
 
         public long MainTaskId { get; set; }
@@ -104,15 +113,16 @@ namespace CentersFrontier.Production.Tasks
         }
     }
 
-    public class DingZhiTask : ManufacturingTask
+    public class SideTask : ManufacturingTask
     {
 
-        public DingZhiTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer, int dingZhiDanId)
+        public SideTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer, long originalBatchId)
             : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturer)
         {
-            DingZhiDanId = dingZhiDanId;
+            OriginalBatchId = originalBatchId;
         }
 
-        public int DingZhiDanId { get; set; }
+        public long OriginalBatchId { get; set; }
+        public ManufacturingBatch OriginalBatch { get; set; }
     }
 }
