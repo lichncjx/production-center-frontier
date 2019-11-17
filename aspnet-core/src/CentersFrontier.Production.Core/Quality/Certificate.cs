@@ -7,12 +7,8 @@ namespace CentersFrontier.Production.Quality
     {
         public int Quantity { get; set; }
 
-        [Required]public string QcCardId { get; set; }
+        [Required]
+        public string QcCardId { get; set; }
         public QcCard QcCard { get; set; }
-    }
-
-    public class QcCard : Entity<string>
-    {
-
     }
 }

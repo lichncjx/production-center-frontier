@@ -9,5 +9,11 @@
         public const bool MultiTenancyEnabled = false;
 
         public const int MaxDescriptionLength = 256;
+
+        public const char BatchJoiner = '_';
+
+        public const char SideTaskJoiner = ':';
+
+        public const char SubTaskJoiner = '/';
     }
 }

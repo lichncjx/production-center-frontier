@@ -1,5 +1,4 @@
-﻿using Abp.Domain.Entities;
-using CentersFrontier.Production.Entities;
+﻿using CentersFrontier.Production.Entities;
 
 namespace CentersFrontier.Production.Tasks
 {

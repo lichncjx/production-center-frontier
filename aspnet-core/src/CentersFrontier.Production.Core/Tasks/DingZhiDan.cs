@@ -34,7 +34,6 @@ namespace CentersFrontier.Production.Tasks
         public int TotalQuantity { get; set; }
         public Manufacturer ZhuZhi { get; set; }
 
-
         public bool IsReceived { get; set; }
         public DateTime ReceptionTime { get; set; }
         public long? RecipientUserId { get; set; }
