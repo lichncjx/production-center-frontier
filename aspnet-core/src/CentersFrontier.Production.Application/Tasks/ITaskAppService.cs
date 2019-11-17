@@ -8,6 +8,7 @@ namespace CentersFrontier.Production.Tasks
     {
         Task ActivateTask(long id);
         Task DeactivateTask(long id);
+        Task GoProduction(GoProductionInput input);
     }
 
     public interface IMainTaskAppService : ITaskAppService

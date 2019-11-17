@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Domain.Repositories;
+using Abp.UI;
 using CentersFrontier.Production.Tasks.Dto;
 
 namespace CentersFrontier.Production.Tasks
@@ -12,14 +13,26 @@ namespace CentersFrontier.Production.Tasks
         {
         }
 
-        public Task ActivateTask(long id)
+        public async Task ActivateTask(long id)
         {
-            throw new System.NotImplementedException();
+            var task = await Repository.GetAsync(id);
+            if (task.IsActive)
+                throw new UserFriendlyException("任务已处于激活状态");
+            task.IsActive = true;
         }
 
-        public Task DeactivateTask(long id)
+        public async Task DeactivateTask(long id)
         {
-            throw new System.NotImplementedException();
+            var task = await Repository.GetAsync(id);
+            if (!task.IsActive)
+                throw new UserFriendlyException("任务已处于未激活状态");
+            task.IsActive = false;
+        }
+
+        public async Task GoProduction(GoProductionInput input)
+        {
+            var task = await Repository.GetAsync(input.TaskId);
+            task.GoProduction(input.Quantity);
         }
     }
 
