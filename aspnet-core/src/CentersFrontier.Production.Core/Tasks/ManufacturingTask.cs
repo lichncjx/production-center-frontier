@@ -11,13 +11,14 @@ namespace CentersFrontier.Production.Tasks
 {
     public abstract class ManufacturingTask : FullAuditedEntity<long>, IReceptionAudited, IPassivable
     {
-        protected ManufacturingTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer)
+        protected ManufacturingTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, int manufacturerId)
         {
             TaskCode = taskCode;
             DrawingCode = drawingCode;
             DrawingName = drawingName;
             TotalQuantity = totalQuantity;
-            Manufacturer = manufacturer;
+            ManufacturerId = manufacturerId;
+            IsActive = false;
         }
 
         public string TaskCode { get; protected set; }
@@ -28,6 +29,7 @@ namespace CentersFrontier.Production.Tasks
 
         public int TotalQuantity { get; set; }
 
+        public int ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
 
         public bool IsReceived { get; set; }
@@ -56,8 +58,8 @@ namespace CentersFrontier.Production.Tasks
 
     public class MainTask : ManufacturingTask
     {
-        public MainTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer)
-            : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturer)
+        public MainTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, int manufacturerId)
+            : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturerId)
         {
             ClassificationId = ParseClassificationId(TaskCode);
         }
@@ -94,10 +96,11 @@ namespace CentersFrontier.Production.Tasks
         }
     }
 
+
     public class SubTask : ManufacturingTask
     {
-        public SubTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer)
-            : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturer)
+        public SubTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, int manufacturerId)
+            : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturerId)
         {
             IsActive = true;
         }
@@ -115,9 +118,8 @@ namespace CentersFrontier.Production.Tasks
 
     public class SideTask : ManufacturingTask
     {
-
-        public SideTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, Manufacturer manufacturer, long originalBatchId)
-            : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturer)
+        public SideTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, int manufacturerId, long originalBatchId)
+            : base(taskCode, drawingCode, drawingName, totalQuantity, manufacturerId)
         {
             OriginalBatchId = originalBatchId;
         }

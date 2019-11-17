@@ -3,7 +3,7 @@ using Abp.Domain.Entities;
 
 namespace CentersFrontier.Production.Entities
 {
-    public abstract class SimpleCndEntity : AggregateRoot
+    public abstract class SimpleCndEntity : Entity
     {
         public const int MaxCodeLength = 32;
         public const int MaxNameLength = 32;
