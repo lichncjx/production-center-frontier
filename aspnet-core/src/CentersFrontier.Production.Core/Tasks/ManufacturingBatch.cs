@@ -68,18 +68,18 @@ namespace CentersFrontier.Production.Tasks
             NextSideTaskSequence++;
         }
 
-        public void ReadyForTransfer()
+        public void PrepareForTransfer(int destinationId)
         {
             if (CertificateId.IsNullOrEmpty())
                 if (!ExceptionalPass)
                     throw new UserFriendlyException("只有开具合格证的任务才能进行交接");
-            TransferRecord = new TransferRecord();
+            TransferRecord = new TransferRecord(){DestinationId = destinationId};
         }
 
         public void CompleteTransfer(long userId, string remark)
         {
             if (TransferRecord == null)
-                throw new ApplicationException("错误：尝试对未开局交接单的任务进行交接");
+                throw new ApplicationException("错误：尝试对未开具交接单的任务进行交接");
 
             TransferRecord.IsReceived = true;
             TransferRecord.RecipientUserId = userId;

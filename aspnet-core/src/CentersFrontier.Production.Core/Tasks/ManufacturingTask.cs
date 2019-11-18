@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using Abp.Timing;
+using Abp.UI;
 using CentersFrontier.Production.Entities;
 
 namespace CentersFrontier.Production.Tasks
@@ -55,6 +57,15 @@ namespace CentersFrontier.Production.Tasks
             var batch = new ManufacturingBatch(NextBatchCode(), quantity);
             Batches.Add(batch);
             NextBatchSequence++;
+        }
+
+        public void Receive(long recipientUserId)
+        {
+            if (IsReceived)
+                throw new UserFriendlyException("该任务已经被接收");
+            IsReceived = true;
+            RecipientUserId = recipientUserId;
+            ReceptionTime = Clock.Now;
         }
     }
 

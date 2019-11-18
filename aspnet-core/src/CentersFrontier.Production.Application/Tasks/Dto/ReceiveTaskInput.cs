@@ -2,8 +2,8 @@
 
 namespace CentersFrontier.Production.Tasks.Dto
 {
-    public class GoProductionInput : EntityDto<long>
+    public class ReceiveTaskInput : EntityDto<long>
     {
-        public int Quantity { get; set; }
+        public long UserId { get; set; }
     }
 }

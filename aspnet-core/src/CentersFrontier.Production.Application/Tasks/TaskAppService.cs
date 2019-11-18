@@ -3,6 +3,7 @@ using Abp.Application.Services;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using CentersFrontier.Production.Tasks.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace CentersFrontier.Production.Tasks
 {
@@ -11,6 +12,12 @@ namespace CentersFrontier.Production.Tasks
     {
         public TaskAppService(IRepository<TTask, long> repository) : base(repository)
         {
+        }
+
+        public async Task ReceiveTask(ReceiveTaskInput input)
+        {
+            var task = await Repository.GetAsync(input.Id);
+            task.Receive(input.UserId);
         }
 
         public async Task ActivateTask(long id)
@@ -28,10 +35,15 @@ namespace CentersFrontier.Production.Tasks
                 throw new UserFriendlyException("任务已处于未激活状态");
             task.IsActive = false;
         }
+        public async Task ToggleActivationStatus(long id)
+        {
+            var task = await Repository.GetAsync(id);
+            task.IsActive = !task.IsActive;
+        }
 
         public async Task GoProduction(GoProductionInput input)
         {
-            var task = await Repository.GetAsync(input.TaskId);
+            var task = await Repository.GetAllIncluding(t => t.Batches).SingleAsync(t => t.Id == input.Id);
             task.GoProduction(input.Quantity);
         }
     }

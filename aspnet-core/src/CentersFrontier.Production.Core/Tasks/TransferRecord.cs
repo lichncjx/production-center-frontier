@@ -9,6 +9,8 @@ namespace CentersFrontier.Production.Tasks
         public long BatchId { get; set; }
         public ManufacturingBatch Batch { get; set; }
 
+        public int DestinationId { get; set; }
+
         public string Remark { get; set; }
 
         public bool IsReceived { get; set; }
