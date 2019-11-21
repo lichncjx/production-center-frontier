@@ -9,7 +9,7 @@ using CentersFrontier.Production.Quality;
 
 namespace CentersFrontier.Production.Tasks
 {
-    public class ManufacturingBatch : FullAuditedEntity<long>, IPassivable
+    public class ManufacturingBatch : FullAuditedAggregateRoot<long>, IPassivable
     {
         public ManufacturingBatch(string batchCode, int quantity)
         {
@@ -33,6 +33,10 @@ namespace CentersFrontier.Production.Tasks
 
         public bool IsActive { get; set; }
 
+        public bool IsCompleted { get; set; }
+
+        public DateTime CompletionTime { get; set; }
+
         public bool ExceptionalPass { get; set; }
 
         public long TaskId { get; private set; }
@@ -52,7 +56,7 @@ namespace CentersFrontier.Production.Tasks
         /// <summary>
         /// 交接记录，仅指完工交接。
         /// </summary>
-        public TransferRecord TransferRecord { get; set; }
+        public DeliveryRecord DeliveryRecord { get; set; }
 
         public ICollection<SideTask> SideTasks { get; set; } = new List<SideTask>();
 
@@ -68,23 +72,25 @@ namespace CentersFrontier.Production.Tasks
             NextSideTaskSequence++;
         }
 
-        public void PrepareForTransfer(int destinationId)
+        public void PrepareForDelivery(int destinationId)
         {
             if (CertificateId.IsNullOrEmpty())
                 if (!ExceptionalPass)
-                    throw new UserFriendlyException("只有开具合格证的任务才能进行交接");
-            TransferRecord = new TransferRecord(){DestinationId = destinationId};
+                    throw new UserFriendlyException("只有已开具合格证的任务才能进行交接");
+            DeliveryRecord = new DeliveryRecord
+            {
+                DestinationId = destinationId,
+                TaskId = TaskId
+            };
         }
 
-        public void CompleteTransfer(long userId, string remark)
+        public void Complete()
         {
-            if (TransferRecord == null)
-                throw new ApplicationException("错误：尝试对未开具交接单的任务进行交接");
+            if (IsCompleted)
+                throw new ApplicationException("该批次已经完成");
 
-            TransferRecord.IsReceived = true;
-            TransferRecord.RecipientUserId = userId;
-            TransferRecord.ReceptionTime = Clock.Now;
-            TransferRecord.Remark = remark;
+            IsCompleted = true;
+            CompletionTime = Clock.Now;
         }
     }
 }

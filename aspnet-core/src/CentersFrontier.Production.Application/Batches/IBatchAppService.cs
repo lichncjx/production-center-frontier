@@ -14,7 +14,9 @@ namespace CentersFrontier.Production.Batches
         Task DeactivateBatch(long id);
         Task ToggleActivationStatus(long id);
         Task NewSideTask(NewSideTaskInput input);
-        Task PrepareForTransfer(PrepareForTransferInput input);
+        Task PrepareForDelivery(PrepareForDeliveryInput input);
+        Task ComfirmDelivery
+        Task GetAllWaitingForDelivery(GetAllWaitingForDelivery)
     }
 
     public class BatchAppService : AsyncCrudAppService<ManufacturingBatch, BatchDto, long, PagedBatchResultRequestDto, CreateBatchDto, BatchDto>, IBatchAppService
@@ -48,7 +50,15 @@ namespace CentersFrontier.Production.Batches
         public async Task NewSideTask(NewSideTaskInput input)
         {
             var batch = await Repository.GetAllIncluding(b => b.SideTasks).SingleAsync(b => b.Id == input.Id);
-            batch.NewSideTask(input.DrawingCode, input.DrawingName, input.Quantity, input.ManufacturingId);;
+            batch.NewSideTask(input.DrawingCode, input.DrawingName, input.Quantity, input.ManufacturingId);
+        }
+
+        public async Task PrepareForDelivery(PrepareForDeliveryInput input)
+        {
+            var batch = await Repository.GetAllIncluding(b => b.DeliveryRecord).SingleAsync(b => b.Id == input.Id);
+            if (batch.DeliveryRecord != null)
+                throw new UserFriendlyException("交接单已存在");
+            batch.PrepareForDelivery(input.DestinationId);
         }
     }
 }

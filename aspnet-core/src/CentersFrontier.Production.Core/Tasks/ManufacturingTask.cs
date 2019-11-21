@@ -8,7 +8,7 @@ using CentersFrontier.Production.Entities;
 
 namespace CentersFrontier.Production.Tasks
 {
-    public abstract class ManufacturingTask : FullAuditedEntity<long>, IReceptionAudited, IPassivable
+    public abstract class ManufacturingTask : FullAuditedAggregateRoot<long>, IReceptionAudited, IPassivable
     {
         protected ManufacturingTask(string taskCode, string drawingCode, string drawingName, int totalQuantity, int manufacturerId)
         {
@@ -29,6 +29,8 @@ namespace CentersFrontier.Production.Tasks
 
         public int TotalQuantity { get; set; }
 
+        public int DeliveredQuantity { get; set; }
+
         public int ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
 
@@ -39,6 +41,10 @@ namespace CentersFrontier.Production.Tasks
         public int NextBatchSequence { get; set; }
 
         public bool IsActive { get; set; }
+
+        public bool IsCompleted { get; set; }
+
+        public DateTime CompletionTime { get; set; }
 
         public ICollection<ManufacturingBatch> Batches { get; set; }
 
@@ -66,6 +72,14 @@ namespace CentersFrontier.Production.Tasks
             IsReceived = true;
             RecipientUserId = recipientUserId;
             ReceptionTime = Clock.Now;
+        }
+        public void Complete()
+        {
+            if (IsCompleted)
+                throw new ApplicationException("该批次已经完成");
+
+            IsCompleted = true;
+            CompletionTime = Clock.Now;
         }
     }
 
