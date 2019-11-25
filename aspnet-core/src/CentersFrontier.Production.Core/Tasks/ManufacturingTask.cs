@@ -5,6 +5,7 @@ using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
 using Abp.UI;
 using CentersFrontier.Production.Entities;
+using CentersFrontier.Production.Tasks.Events;
 
 namespace CentersFrontier.Production.Tasks
 {
@@ -69,14 +70,16 @@ namespace CentersFrontier.Production.Tasks
         {
             if (IsReceived)
                 throw new UserFriendlyException("该任务已经被接收");
+
             IsReceived = true;
             RecipientUserId = recipientUserId;
             ReceptionTime = Clock.Now;
         }
-        public void Complete()
+
+        public virtual void Complete()
         {
             if (IsCompleted)
-                throw new ApplicationException("该批次已经完成");
+                throw new ApplicationException("该任务已经完成");
 
             IsCompleted = true;
             CompletionTime = Clock.Now;

@@ -15,8 +15,7 @@ namespace CentersFrontier.Production.Batches
         Task ToggleActivationStatus(long id);
         Task NewSideTask(NewSideTaskInput input);
         Task PrepareForDelivery(PrepareForDeliveryInput input);
-        Task ComfirmDelivery
-        Task GetAllWaitingForDelivery(GetAllWaitingForDelivery)
+        Task ConfirmDelivery(ConfirmDeliveryInput input);
     }
 
     public class BatchAppService : AsyncCrudAppService<ManufacturingBatch, BatchDto, long, PagedBatchResultRequestDto, CreateBatchDto, BatchDto>, IBatchAppService
@@ -59,6 +58,11 @@ namespace CentersFrontier.Production.Batches
             if (batch.DeliveryRecord != null)
                 throw new UserFriendlyException("交接单已存在");
             batch.PrepareForDelivery(input.DestinationId);
+        }
+
+        public Task ConfirmDelivery(ConfirmDeliveryInput input)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

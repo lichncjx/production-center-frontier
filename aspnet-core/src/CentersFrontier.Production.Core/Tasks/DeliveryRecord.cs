@@ -1,7 +1,9 @@
 ﻿using System;
 using Abp.Domain.Entities;
+using Abp.Events.Bus;
 using Abp.Timing;
 using CentersFrontier.Production.Entities;
+using CentersFrontier.Production.Tasks.Events;
 
 namespace CentersFrontier.Production.Tasks
 {
@@ -27,6 +29,13 @@ namespace CentersFrontier.Production.Tasks
             RecipientUserId = recipientUserId;
             ReceptionTime = Clock.Now;
             Remark = remark;
+            EventBus.Default.Trigger(this, new DeliveryConfirmed
+            {
+                BatchId = BatchId,
+                TaskId = TaskId,
+                DestinationId = DestinationId,
+                DeliveryRecordId = Id
+            });
         }
     }
 }

@@ -5,6 +5,9 @@ namespace CentersFrontier.Production.Tasks.Dto
     public class PagedTaskResultRequestDto : PagedResultRequestDto
     {
         public string Keyword { get; set; }
+
         public bool? IsActive { get; set; }
+
+        public int ManufacturerId { get; set; }
     }
 }

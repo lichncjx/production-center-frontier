@@ -6,6 +6,7 @@ using Abp.Timing;
 using Abp.UI;
 using Castle.Core.Internal;
 using CentersFrontier.Production.Quality;
+using CentersFrontier.Production.Tasks.Events;
 
 namespace CentersFrontier.Production.Tasks
 {
@@ -84,6 +85,15 @@ namespace CentersFrontier.Production.Tasks
             };
         }
 
+        public void ConfirmDelivery(int userId, string remark)
+        {
+            if(DeliveryRecord == null)
+                throw new ApplicationException("错误：尝试对未开具交接单的任务进行交接确认");
+
+            DeliveryRecord.Sign(userId, remark);
+            Complete();
+        }
+
         public void Complete()
         {
             if (IsCompleted)
@@ -91,6 +101,7 @@ namespace CentersFrontier.Production.Tasks
 
             IsCompleted = true;
             CompletionTime = Clock.Now;
+            DomainEvents.Add(new BatchCompleted());
         }
     }
 }

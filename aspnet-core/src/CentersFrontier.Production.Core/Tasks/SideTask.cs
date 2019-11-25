@@ -1,4 +1,6 @@
-﻿namespace CentersFrontier.Production.Tasks
+﻿using CentersFrontier.Production.Tasks.Events;
+
+namespace CentersFrontier.Production.Tasks
 {
     public class SideTask : ManufacturingTask
     {
@@ -15,5 +17,11 @@
 
         public long OriginalBatchId { get; set; }
         public ManufacturingBatch OriginalBatch { get; set; }
+
+        public override void Complete()
+        {
+            base.Complete();
+            DomainEvents.Add(new SideTaskCompleted(Id, OriginalBatchId));
+        }
     }
 }

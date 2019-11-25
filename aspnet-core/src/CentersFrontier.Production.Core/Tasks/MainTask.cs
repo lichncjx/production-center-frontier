@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Abp.Extensions;
 using Abp.UI;
+using CentersFrontier.Production.Tasks.Events;
 
 namespace CentersFrontier.Production.Tasks
 {
@@ -16,15 +15,10 @@ namespace CentersFrontier.Production.Tasks
 
         public string ClassificationId { get; private set; }
 
-        public ICollection<SubTask> SubTasks { get; set; } = new List<SubTask>();
-
-        public bool HasSubTasks => SubTasks.Any();
-
         public override void ChangeTaskCode(string newTaskCode)
         {
             base.ChangeTaskCode(newTaskCode);
             ClassificationId = ParseClassificationId(TaskCode);
-            foreach (var subTask in SubTasks) subTask.ChangeTaskCode(newTaskCode);
         }
 
         /// <summary>
@@ -43,6 +37,12 @@ namespace CentersFrontier.Production.Tasks
             {
                 throw new UserFriendlyException($"任务号解析错误，检查任务号格式。{e.Message}");
             }
+        }
+
+        public override void Complete()
+        {
+            base.Complete();
+            DomainEvents.Add(new MainTaskCompleted(Id));
         }
     }
 }
